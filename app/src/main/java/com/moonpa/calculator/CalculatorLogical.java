@@ -103,8 +103,8 @@ public class CalculatorLogical
                    if(postfix.charAt(i) == '+' || postfix.charAt(i) == '-'
                            || postfix.charAt(i) == '*' || postfix.charAt(i) == '/')
                    {
-                       double n1 = numSt.pop();
                        double n2 = numSt.pop();
+                       double n1 = numSt.pop();
                        numSt.push(cal(postfix.charAt(i), n1, n2));
                    }
                }

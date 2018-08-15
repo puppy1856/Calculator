@@ -12,8 +12,10 @@ import com.moonpa.calculator.CalculatorLogical;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    TextView intput;
+    String inputS = new String("0");
+    TextView input;
     TextView output;
+    CalculatorLogical cal = new CalculatorLogical();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,9 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CalculatorLogical cal = new CalculatorLogical();
-
-        intput = (TextView)findViewById(R.id.input);
+        input = (TextView)findViewById(R.id.input);
         output = (TextView)findViewById(R.id.output);
 
         Button btn0 = (Button)findViewById(R.id.btn0);
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnmul = (Button)findViewById(R.id.btnmul);
         Button btnplus = (Button)findViewById(R.id.btnplus);
         Button btnminus = (Button)findViewById(R.id.btnminus);
+        Button btnp = (Button)findViewById(R.id.btnp);
+        Button btnclr = (Button)findViewById(R.id.btnclr);
 
         btn0.setOnClickListener(this);
         btn1.setOnClickListener(this);
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnmul.setOnClickListener(this);
         btnplus.setOnClickListener(this);
         btnminus.setOnClickListener(this);
+        btnp.setOnClickListener(this);
+        btnclr.setOnClickListener(this);
 
         //長按清除鈕
         btndel.setOnLongClickListener(new View.OnLongClickListener()
@@ -66,7 +70,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onLongClick(View view)
             {
-
+                inputS = "0";
+                input.setText(inputS);
+                output.setText(inputS);
 
                 Toast.makeText(MainActivity.this,"清空完成!",Toast.LENGTH_SHORT).show();
                 return true;
@@ -77,58 +83,116 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
+        Button btndel = (Button)findViewById(R.id.btndel);
+        Button btnclr = (Button)findViewById(R.id.btnclr);
+
         int id = view.getId();
 
         switch(id)
         {
             case R.id.btn0:
-
+                setNumInput("0");
                 break;
             case R.id.btn1:
-
+                setNumInput("1");
                 break;
             case R.id.btn2:
-
+                setNumInput("2");
                 break;
             case R.id.btn3:
-
+                setNumInput("3");
                 break;
             case R.id.btn4:
-
+                setNumInput("4");
                 break;
             case R.id.btn5:
-
+                setNumInput("5");
                 break;
             case R.id.btn6:
-
+                setNumInput("6");
                 break;
             case R.id.btn7:
-
+                setNumInput("7");
                 break;
             case R.id.btn8:
-
+                setNumInput("8");
                 break;
             case R.id.btn9:
-
+                setNumInput("9");
                 break;
             case R.id.btne:
+                try
+                {
+                    Double answer = cal.getAnswer(inputS);
+                    inputS = answer + "";
+                    input.setText(answer+"");
+                    output.setText(answer+"");
+
+                    btndel.setVisibility(Button.INVISIBLE);
+                    btnclr.setVisibility(Button.VISIBLE);
+                }
+                catch(ArithmeticException e)
+                {
+                    Toast.makeText(MainActivity.this,"除數不可為零!",Toast.LENGTH_SHORT).show();
+                }
 
                 break;
             case R.id.btndel:
+                if(!inputS.equals("0"))
+                {
+                    StringBuffer temp = new StringBuffer(inputS);
+                    temp.deleteCharAt(temp.length() - 1);
+                    inputS = temp.toString();
+                    if(inputS.isEmpty())
+                        inputS = "0";
+                    input.setText(inputS);
+                }
+                break;
+            case R.id.btnclr:
+                inputS = "0";
+                input.setText(inputS);
+                output.setText(inputS);
 
+                btnclr.setVisibility(Button.INVISIBLE);
+                btndel.setVisibility(Button.VISIBLE);
+                Toast.makeText(MainActivity.this,"清空完成!",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btndiv:
-
+                setEleInput("/");
                 break;
             case R.id.btnmul:
-
+                setEleInput("*");
                 break;
             case R.id.btnplus:
-
+                setEleInput("+");
                 break;
             case R.id.btnminus:
-                
+                setEleInput("-");
+                break;
+            case R.id.btnp:
+                setEleInput(".");
                 break;
         }
+    }
+
+    private void setNumInput(String S)
+    {
+        if(!inputS.equals("0"))
+            inputS += S;
+        else
+            inputS = S;
+        input.setText(inputS);
+    }
+
+    private void setEleInput(String S)
+    {
+        if(inputS.charAt(inputS.length()-1) != '.' && inputS.charAt(inputS.length()-1) != '+'
+                && inputS.charAt(inputS.length()-1) != '-' && inputS.charAt(inputS.length()-1) != '*'
+                && inputS.charAt(inputS.length()-1) != '/')
+        {
+            inputS += S;
+            input.setText(inputS);
+        }
+
     }
 }
