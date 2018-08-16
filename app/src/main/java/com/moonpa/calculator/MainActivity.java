@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onLongClick(View view)
             {
                 inputS = "0";
+                input.setTextSize(50);
                 input.setText(inputS);
                 output.setText(inputS);
 
@@ -123,13 +124,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btne:
                 try
                 {
-                    Double answer = cal.getAnswer(inputS);
-                    inputS = answer + "";
-                    input.setText(answer+"");
-                    output.setText(answer+"");
+                    if(!cal.toPostfix(inputS).equals("wrong"))
+                    {
+                        Double answer = cal.getAnswer(inputS);
+                        inputS = answer + "";
+                        input.setText(answer + "");
+                        output.setText(answer + "");
 
-                    btndel.setVisibility(Button.INVISIBLE);
-                    btnclr.setVisibility(Button.VISIBLE);
+                        btndel.setVisibility(Button.INVISIBLE);
+                        btnclr.setVisibility(Button.VISIBLE);
+                    }
+                    else
+                        Toast.makeText(MainActivity.this,"算式錯誤!",Toast.LENGTH_SHORT).show();
                 }
                 catch(ArithmeticException e)
                 {
@@ -145,11 +151,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     inputS = temp.toString();
                     if(inputS.isEmpty())
                         inputS = "0";
+                    if(inputS.length() <= 12)
+                        input.setTextSize(50);
                     input.setText(inputS);
                 }
                 break;
             case R.id.btnclr:
                 inputS = "0";
+                input.setTextSize(50);
                 input.setText(inputS);
                 output.setText(inputS);
 
@@ -178,7 +187,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setNumInput(String S)
     {
         if(!inputS.equals("0"))
-            inputS += S;
+        {
+            if(inputS.length() == 40)
+                Toast.makeText(MainActivity.this,"已達上限!",Toast.LENGTH_SHORT).show();
+            else
+            {
+                inputS += S;
+                if (inputS.length() > 12)
+                    input.setTextSize(30);
+            }
+        }
         else
             inputS = S;
         input.setText(inputS);
@@ -190,7 +208,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 && inputS.charAt(inputS.length()-1) != '-' && inputS.charAt(inputS.length()-1) != '*'
                 && inputS.charAt(inputS.length()-1) != '/')
         {
-            inputS += S;
+            if(inputS.length() == 40)
+                Toast.makeText(MainActivity.this,"已達上限!",Toast.LENGTH_SHORT).show();
+            else
+            {
+                inputS += S;
+                if (inputS.length() > 12)
+                    input.setTextSize(30);
+            }
             input.setText(inputS);
         }
 
