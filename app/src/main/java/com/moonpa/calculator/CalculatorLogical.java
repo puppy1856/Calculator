@@ -1,6 +1,7 @@
 package com.moonpa.calculator;
 
 import java.util.Stack;
+import java.lang.Character;
 
 /*
 拿到算式，假設不填括號。
@@ -21,12 +22,14 @@ public class CalculatorLogical
         return c == '+' || c == '-' ? 1 : c == '*' || c == '/' ? 2 : 0;
     }
 
-    private String toPostfix(String infix)
+    public String toPostfix(String infix)
     {
         String postfix = new String();
         Stack<Character> operatorSt = new Stack<Character>();
 
-        if (!infix.isEmpty())
+        if (!infix.isEmpty() &&
+                (infix.contains("+") || infix.contains("-") || infix.contains("*") || infix.contains("/"))
+                && Character.isDigit(infix.charAt(infix.length() -1)))
         {
             for (int i = 0; i < infix.length(); i++)
             {
