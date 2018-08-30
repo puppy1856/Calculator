@@ -13,6 +13,7 @@ import com.moonpa.calculator.CalculatorLogical;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     String inputS = new String("0");
+    Double answer;
     TextView input;
     TextView output;
     CalculatorLogical cal = new CalculatorLogical();
@@ -126,10 +127,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     if(!cal.toPostfix(inputS).equals("wrong"))
                     {
-                        Double answer = cal.getAnswer(inputS);
                         inputS = answer + "";
-                        input.setText(answer + "");
-                        output.setText(answer + "");
+                        input.setText(inputS);
+                        output.setText("");
 
                         btndel.setVisibility(Button.INVISIBLE);
                         btnclr.setVisibility(Button.VISIBLE);
@@ -200,6 +200,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             inputS = S;
         input.setText(inputS);
+
+        if(!cal.toPostfix(inputS).equals("wrong"))
+        {
+            answer = cal.getAnswer(inputS);
+            output.setText(answer + "");
+        }
     }
 
     private void setEleInput(String S)
