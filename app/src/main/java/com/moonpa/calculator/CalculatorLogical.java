@@ -2,6 +2,7 @@ package com.moonpa.calculator;
 
 import java.util.Stack;
 import java.lang.Character;
+import android.util.Log;
 
 /*
 拿到算式，假設不填括號。
@@ -27,36 +28,69 @@ public class CalculatorLogical
         String postfix = new String();
         Stack<Character> operatorSt = new Stack<Character>();
 
-        if (!infix.isEmpty() &&
+        if(infix.isEmpty() || (infix.charAt(0) == '-' && checkOnlyMinus(infix)))
+            return "wrong";
+
+        else if (!infix.isEmpty() &&
                 (infix.contains("+") || infix.contains("-") || infix.contains("*") || infix.contains("/"))
                 && Character.isDigit(infix.charAt(infix.length() -1)))
         {
-            for (int i = 0; i < infix.length(); i++)
+            if(infix.charAt(0) == '-')
             {
-                if (priority(infix.charAt(i)) == 0)
-                    postfix += infix.charAt(i);
-                else
+                postfix += infix.charAt(0);
+                for (int i = 1; i < infix.length(); i++)
                 {
-                    postfix += "_";
-                    if (priority(infix.charAt(i)) == 2)
-                    {
-                        if (!operatorSt.empty() && priority(operatorSt.peek()) == 2)
-                        {
-                            postfix += operatorSt.pop();
-                            operatorSt.push(infix.charAt(i));
-                        }
-                        else
-                            operatorSt.push(infix.charAt(i));
-                    }
+                    if (priority(infix.charAt(i)) == 0)
+                        postfix += infix.charAt(i);
                     else
                     {
-                        if(!operatorSt.empty())
+                        postfix += "_";
+                        if (priority(infix.charAt(i)) == 2)
                         {
-                            postfix += operatorSt.pop();
-                            operatorSt.push(infix.charAt(i));
+                            if (!operatorSt.empty() && priority(operatorSt.peek()) == 2)
+                            {
+                                postfix += operatorSt.pop();
+                                operatorSt.push(infix.charAt(i));
+                            } else
+                                operatorSt.push(infix.charAt(i));
+                        } else
+                        {
+                            if (!operatorSt.empty())
+                            {
+                                postfix += operatorSt.pop();
+                                operatorSt.push(infix.charAt(i));
+                            } else
+                                operatorSt.push(infix.charAt(i));
                         }
-                        else
-                            operatorSt.push(infix.charAt(i));
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < infix.length(); i++)
+                {
+                    if (priority(infix.charAt(i)) == 0)
+                        postfix += infix.charAt(i);
+                    else
+                    {
+                        postfix += "_";
+                        if (priority(infix.charAt(i)) == 2)
+                        {
+                            if (!operatorSt.empty() && priority(operatorSt.peek()) == 2)
+                            {
+                                postfix += operatorSt.pop();
+                                operatorSt.push(infix.charAt(i));
+                            } else
+                                operatorSt.push(infix.charAt(i));
+                        } else
+                        {
+                            if (!operatorSt.empty())
+                            {
+                                postfix += operatorSt.pop();
+                                operatorSt.push(infix.charAt(i));
+                            } else
+                                operatorSt.push(infix.charAt(i));
+                        }
                     }
                 }
             }
@@ -98,29 +132,87 @@ public class CalculatorLogical
 
         if (!postfix.equals("wrong"))
         {
-           for(int i = 0; i < postfix.length();i++)
-           {
-               if(postfix.charAt(i) != '+' && postfix.charAt(i) != '-'
-                       && postfix.charAt(i) != '*' && postfix.charAt(i) != '/'
-                       && postfix.charAt(i) != '_')
-               {   temp += postfix.charAt(i); }
-               else
-               {
-                   if(!temp.isEmpty())
-                   {
-                       numSt.push(Double.parseDouble(temp));
-                       temp = "";
-                   }
-                   if(postfix.charAt(i) != '_')
-                   {
-                       double n2 = numSt.pop();
-                       double n1 = numSt.pop();
-                       numSt.push(cal(postfix.charAt(i), n1, n2));
-                   }
-               }
-           }
-           answer = numSt.pop();
+            if(postfix.charAt(0) != '-')
+            {
+                for (int i = 0; i < postfix.length(); i++)
+                {
+                    if (postfix.charAt(i) != '+' && postfix.charAt(i) != '-'
+                            && postfix.charAt(i) != '*' && postfix.charAt(i) != '/'
+                            && postfix.charAt(i) != '_')
+                    {
+                        temp += postfix.charAt(i);
+                    } else
+                    {
+                        if (!temp.isEmpty())
+                        {
+                            numSt.push(Double.parseDouble(temp));
+                            temp = "";
+                        }
+                        if (postfix.charAt(i) != '_')
+                        {
+                            double n2 = numSt.pop();
+                            double n1 = numSt.pop();
+                            numSt.push(cal(postfix.charAt(i), n1, n2));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Log.e("postfix", postfix);
+                int count = 1;
+                while(Character.isDigit(postfix.charAt(count)))
+                {
+                    temp += postfix.charAt(count);
+                    count++;
+                }
+                Log.e("temp", temp);
+                numSt.push((0 - Double.parseDouble(temp)));
+                temp = "";
+                Log.e("first number", numSt.peek() + "");
+                postfix = postfix.substring(count);
+                Log.e("after substring_postfix", postfix);
+
+
+                for (int i = 0; i < postfix.length(); i++)
+                {
+                    if (postfix.charAt(i) != '+' && postfix.charAt(i) != '-'
+                            && postfix.charAt(i) != '*' && postfix.charAt(i) != '/'
+                            && postfix.charAt(i) != '_')
+                    {
+                        temp += postfix.charAt(i);
+                    } else
+                    {
+                        if (!temp.isEmpty())
+                        {
+                            numSt.push(Double.parseDouble(temp));
+                            temp = "";
+                        }
+                        if (postfix.charAt(i) != '_')
+                        {
+                            double n2 = numSt.pop();
+                            double n1 = numSt.pop();
+                            numSt.push(cal(postfix.charAt(i), n1, n2));
+                        }
+                    }
+                }
+            }
+            answer = numSt.pop();
+            }
+            return answer;
+    }
+
+    private boolean checkOnlyMinus(String S)
+    {
+        boolean ans = true;
+        if(S.charAt(0) == '-')
+        {
+            for(int a = 1;a < S.length();a++)
+            {
+                if(S.charAt(a) != '.' && S.charAt(a) != '_' && !Character.isDigit(S.charAt(a)))
+                    ans = false;
+            }
         }
-        return answer;
+        return ans;
     }
 }

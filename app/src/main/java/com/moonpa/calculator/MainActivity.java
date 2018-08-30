@@ -8,11 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Stack;
+
 import com.moonpa.calculator.CalculatorLogical;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
-    String inputS = new String("0");
+    String inputS = new String("");
     double answer;
     TextView input;
     TextView output;
@@ -24,27 +25,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        input = (TextView)findViewById(R.id.input);
-        output = (TextView)findViewById(R.id.output);
+        input = (TextView) findViewById(R.id.input);
+        output = (TextView) findViewById(R.id.output);
 
-        Button btn0 = (Button)findViewById(R.id.btn0);
-        Button btn1 = (Button)findViewById(R.id.btn1);
-        Button btn2 = (Button)findViewById(R.id.btn2);
-        Button btn3 = (Button)findViewById(R.id.btn3);
-        Button btn4 = (Button)findViewById(R.id.btn4);
-        Button btn5 = (Button)findViewById(R.id.btn5);
-        Button btn6 = (Button)findViewById(R.id.btn6);
-        Button btn7 = (Button)findViewById(R.id.btn7);
-        Button btn8 = (Button)findViewById(R.id.btn8);
-        Button btn9 = (Button)findViewById(R.id.btn9);
-        Button btne = (Button)findViewById(R.id.btne);
-        Button btndel = (Button)findViewById(R.id.btndel);
-        Button btndiv = (Button)findViewById(R.id.btndiv);
-        Button btnmul = (Button)findViewById(R.id.btnmul);
-        Button btnplus = (Button)findViewById(R.id.btnplus);
-        Button btnminus = (Button)findViewById(R.id.btnminus);
-        Button btnp = (Button)findViewById(R.id.btnp);
-        Button btnclr = (Button)findViewById(R.id.btnclr);
+        Button btn0 = (Button) findViewById(R.id.btn0);
+        Button btn1 = (Button) findViewById(R.id.btn1);
+        Button btn2 = (Button) findViewById(R.id.btn2);
+        Button btn3 = (Button) findViewById(R.id.btn3);
+        Button btn4 = (Button) findViewById(R.id.btn4);
+        Button btn5 = (Button) findViewById(R.id.btn5);
+        Button btn6 = (Button) findViewById(R.id.btn6);
+        Button btn7 = (Button) findViewById(R.id.btn7);
+        Button btn8 = (Button) findViewById(R.id.btn8);
+        Button btn9 = (Button) findViewById(R.id.btn9);
+        Button btne = (Button) findViewById(R.id.btne);
+        Button btndel = (Button) findViewById(R.id.btndel);
+        Button btndiv = (Button) findViewById(R.id.btndiv);
+        Button btnmul = (Button) findViewById(R.id.btnmul);
+        Button btnplus = (Button) findViewById(R.id.btnplus);
+        Button btnminus = (Button) findViewById(R.id.btnminus);
+        Button btnp = (Button) findViewById(R.id.btnp);
+        Button btnclr = (Button) findViewById(R.id.btnclr);
 
         btn0.setOnClickListener(this);
         btn1.setOnClickListener(this);
@@ -71,12 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onLongClick(View view)
             {
-                inputS = "0";
+                inputS = "";
                 input.setTextSize(50);
                 input.setText(inputS);
                 output.setText("");
 
-                Toast.makeText(MainActivity.this,"清空完成!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "清空完成!", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -85,12 +86,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view)
     {
-        Button btndel = (Button)findViewById(R.id.btndel);
-        Button btnclr = (Button)findViewById(R.id.btnclr);
+        Button btndel = (Button) findViewById(R.id.btndel);
+        Button btnclr = (Button) findViewById(R.id.btnclr);
 
         int id = view.getId();
 
-        switch(id)
+        switch (id)
         {
             case R.id.btn0:
                 setNumInput("0");
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btne:
                 try
                 {
-                    if(!cal.toPostfix(inputS).equals("wrong"))
+                    if (!cal.toPostfix(inputS).equals("wrong"))
                     {
                         inputS = output.getText() + "";
                         input.setText(inputS);
@@ -133,52 +134,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         btndel.setVisibility(Button.INVISIBLE);
                         btnclr.setVisibility(Button.VISIBLE);
-                    }
-                    else
-                        Toast.makeText(MainActivity.this,"算式錯誤!",Toast.LENGTH_SHORT).show();
-                }
-                catch(ArithmeticException e)
+                    } else
+                        Toast.makeText(MainActivity.this, "算式錯誤!", Toast.LENGTH_SHORT).show();
+                } catch (ArithmeticException e)
                 {
-                    Toast.makeText(MainActivity.this,"除數不可為零!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "除數不可為零!", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
             case R.id.btndel:
-                if(!inputS.equals("0"))
+                if (!inputS.isEmpty())
                 {
-                    if(!output.getText().equals(""))
+                    if (!output.getText().equals(""))
                         output.setText("");
-                    StringBuffer temp = new StringBuffer(inputS);
-                    temp.deleteCharAt(temp.length() - 1);
-                    inputS = temp.toString();
-                    if(!cal.toPostfix(inputS).equals("wrong"))
+                    if (inputS.length() == 1)
+                        inputS = "";
+                    else
                     {
-                        answer = cal.getAnswer(inputS);
-
-                        if(checkInt(answer))
+                        StringBuffer temp = new StringBuffer(inputS);
+                        temp.deleteCharAt(temp.length() - 1);
+                        inputS = temp.toString();
+                        if (!cal.toPostfix(inputS).equals("wrong"))
                         {
-                            int answerInt = (int) answer;
-                            output.setText(answerInt + "");
+                            answer = cal.getAnswer(inputS);
+
+                            if (checkInt(answer))
+                            {
+                                int answerInt = (int) answer;
+                                output.setText(answerInt + "");
+                            } else
+                                output.setText(answer + "");
                         }
-                        else
-                            output.setText(answer + "");
+                        if (inputS.length() <= 12)
+                            input.setTextSize(50);
                     }
-                    if(inputS.isEmpty())
-                        inputS = "0";
-                    if(inputS.length() <= 12)
-                        input.setTextSize(50);
                     input.setText(inputS);
                 }
                 break;
             case R.id.btnclr:
-                inputS = "0";
+                inputS = "";
                 input.setTextSize(50);
                 input.setText(inputS);
                 output.setText("");
 
                 btnclr.setVisibility(Button.INVISIBLE);
                 btndel.setVisibility(Button.VISIBLE);
-                Toast.makeText(MainActivity.this,"清空完成!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "清空完成!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btndiv:
                 setEleInput("/");
@@ -200,10 +201,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setNumInput(String S)
     {
-        if(!inputS.equals("0"))
+        if (inputS.isEmpty())
+            inputS += S;
+
+        else
         {
-            if(inputS.length() == 40)
-                Toast.makeText(MainActivity.this,"已達上限!",Toast.LENGTH_SHORT).show();
+            if (inputS.length() == 40)
+                Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
             else
             {
                 inputS += S;
@@ -211,20 +215,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     input.setTextSize(30);
             }
         }
-        else
-            inputS = S;
         input.setText(inputS);
 
-        if(!cal.toPostfix(inputS).equals("wrong"))
+        if (!cal.toPostfix(inputS).equals("wrong"))
         {
             answer = cal.getAnswer(inputS);
 
-            if(checkInt(answer))
+            if (checkInt(answer))
             {
                 int answerInt = (int) answer;
                 output.setText(answerInt + "");
-            }
-            else
+            } else
                 output.setText(answer + "");
 
         }
@@ -232,12 +233,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setEleInput(String S)
     {
-        if(inputS.charAt(inputS.length()-1) != '.' && inputS.charAt(inputS.length()-1) != '+'
-                && inputS.charAt(inputS.length()-1) != '-' && inputS.charAt(inputS.length()-1) != '*'
-                && inputS.charAt(inputS.length()-1) != '/')
+        if (inputS.isEmpty() && S.equals("-"))
         {
-            if(inputS.length() == 40)
-                Toast.makeText(MainActivity.this,"已達上限!",Toast.LENGTH_SHORT).show();
+            inputS += S;
+            input.setText(inputS);
+        } else if (!inputS.isEmpty()
+                && inputS.charAt(inputS.length() - 1) != '.' && inputS.charAt(inputS.length() - 1) != '+'
+                && inputS.charAt(inputS.length() - 1) != '-' && inputS.charAt(inputS.length() - 1) != '*'
+                && inputS.charAt(inputS.length() - 1) != '/')
+        {
+            if (inputS.length() == 40)
+                Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
             else
             {
                 inputS += S;
@@ -251,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean checkInt(double check)
     {
-        int temp = (int)check;
-        if(check - temp != 0)
+        int temp = (int) check;
+        if (check - temp != 0)
             return false;
         else
             return true;
