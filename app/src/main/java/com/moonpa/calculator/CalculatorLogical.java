@@ -111,8 +111,7 @@ public class CalculatorLogical
                        numSt.push(Double.parseDouble(temp));
                        temp = "";
                    }
-                   if(postfix.charAt(i) == '+' || postfix.charAt(i) == '-'
-                           || postfix.charAt(i) == '*' || postfix.charAt(i) == '/')
+                   if(postfix.charAt(i) != '_')
                    {
                        double n2 = numSt.pop();
                        double n1 = numSt.pop();
