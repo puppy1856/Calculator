@@ -13,7 +13,7 @@ import com.moonpa.calculator.CalculatorLogical;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     String inputS = new String("0");
-    Double answer;
+    double answer;
     TextView input;
     TextView output;
     CalculatorLogical cal = new CalculatorLogical();
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     if(!cal.toPostfix(inputS).equals("wrong"))
                     {
-                        inputS = answer + "";
+                        inputS = output.getText() + "";
                         input.setText(inputS);
                         output.setText("");
 
@@ -154,7 +154,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(!cal.toPostfix(inputS).equals("wrong"))
                     {
                         answer = cal.getAnswer(inputS);
-                        output.setText(answer + "");
+
+                        if(checkInt(answer))
+                        {
+                            int answerInt = (int) answer;
+                            output.setText(answerInt + "");
+                        }
+                        else
+                            output.setText(answer + "");
                     }
                     if(inputS.isEmpty())
                         inputS = "0";
@@ -211,7 +218,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!cal.toPostfix(inputS).equals("wrong"))
         {
             answer = cal.getAnswer(inputS);
-            output.setText(answer + "");
+
+            if(checkInt(answer))
+            {
+                int answerInt = (int) answer;
+                output.setText(answerInt + "");
+            }
+            else
+                output.setText(answer + "");
+
         }
     }
 
@@ -232,5 +247,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             input.setText(inputS);
         }
 
+    }
+
+    private boolean checkInt(double check)
+    {
+        int temp = (int)check;
+        if(check - temp != 0)
+            return false;
+        else
+            return true;
     }
 }
