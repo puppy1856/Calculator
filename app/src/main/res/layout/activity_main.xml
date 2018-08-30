@@ -14,7 +14,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="84dp"
-        android:text="0"
         android:textAlignment="textEnd"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@android:color/darker_gray"

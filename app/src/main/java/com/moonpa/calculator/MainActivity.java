@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 inputS = "0";
                 input.setTextSize(50);
                 input.setText(inputS);
-                output.setText(inputS);
+                output.setText("");
 
                 Toast.makeText(MainActivity.this,"清空完成!",Toast.LENGTH_SHORT).show();
                 return true;
@@ -146,9 +146,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btndel:
                 if(!inputS.equals("0"))
                 {
+                    if(!output.getText().equals(""))
+                        output.setText("");
                     StringBuffer temp = new StringBuffer(inputS);
                     temp.deleteCharAt(temp.length() - 1);
                     inputS = temp.toString();
+                    if(!cal.toPostfix(inputS).equals("wrong"))
+                    {
+                        answer = cal.getAnswer(inputS);
+                        output.setText(answer + "");
+                    }
                     if(inputS.isEmpty())
                         inputS = "0";
                     if(inputS.length() <= 12)
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 inputS = "0";
                 input.setTextSize(50);
                 input.setText(inputS);
-                output.setText(inputS);
+                output.setText("");
 
                 btnclr.setVisibility(Button.INVISIBLE);
                 btndel.setVisibility(Button.VISIBLE);

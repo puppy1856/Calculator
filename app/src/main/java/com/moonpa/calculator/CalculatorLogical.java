@@ -16,7 +16,7 @@ public class CalculatorLogical
 {
     private double answer;
 
-    // + and - -> 1, * and / -> 2,other -> 0
+    /* + and - -> 1, * and / -> 2,other -> 0 */
     private int priority(char c)
     {
         return c == '+' || c == '-' ? 1 : c == '*' || c == '/' ? 2 : 0;
@@ -39,16 +39,24 @@ public class CalculatorLogical
                 {
                     postfix += "_";
                     if (priority(infix.charAt(i)) == 2)
-                        operatorSt.push(infix.charAt(i));
-                    else
                     {
-                        if (operatorSt.empty() || priority(operatorSt.peek()) == 1)
-                            operatorSt.push(infix.charAt(i));
-                        else
+                        if (!operatorSt.empty() && priority(operatorSt.peek()) == 2)
                         {
                             postfix += operatorSt.pop();
                             operatorSt.push(infix.charAt(i));
                         }
+                        else
+                            operatorSt.push(infix.charAt(i));
+                    }
+                    else
+                    {
+                        if(!operatorSt.empty())
+                        {
+                            postfix += operatorSt.pop();
+                            operatorSt.push(infix.charAt(i));
+                        }
+                        else
+                            operatorSt.push(infix.charAt(i));
                     }
                 }
             }
