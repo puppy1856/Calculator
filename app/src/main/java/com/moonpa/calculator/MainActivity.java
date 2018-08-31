@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (!cal.toPostfix(inputS).equals("wrong"))
                     {
                         inputS = output.getText() + "";
+                        if (inputS.length() > 12)
+                            input.setTextSize(30);
                         input.setText(inputS);
                         output.setText("");
 
