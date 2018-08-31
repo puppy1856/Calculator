@@ -7,6 +7,7 @@ My Calculator App
 [AndroidViewAnimations](https://github.com/daimajia/AndroidViewAnimations)
 
 # apk位置
-[Location](./app/release/app-release.apk)
+app-release.apk
+[Location](./app/release/)
 
 
