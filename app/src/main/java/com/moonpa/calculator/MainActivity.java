@@ -223,8 +223,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 output.setText(answerInt + "");
             } else
                 output.setText(answer + "");
-
         }
+        else
+            output.setText("");
     }
 
     private void setEleInput(String S)
@@ -233,7 +234,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             inputS += S;
             input.setText(inputS);
-        } else if (!inputS.isEmpty()
+        }
+        else if (!inputS.isEmpty()
                 && Character.isDigit(inputS.charAt(inputS.length() - 1)))
         {
             if (inputS.length() == 28)

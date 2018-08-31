@@ -15,6 +15,7 @@ import android.util.Log;
 
 public class CalculatorLogical
 {
+    private String[] checkP;
     private double answer;
 
     /* + and - -> 1, * and / -> 2,other -> 0 */
@@ -101,6 +102,23 @@ public class CalculatorLogical
         } else
             postfix = "wrong";
 
+        checkP = postfix.split("_");
+
+        for(int a = 0;a < checkP.length;a++)
+        {
+            Log.e("checkP" + a, checkP[a]);
+            int count = 0;
+            for(int b = 0;b < checkP[a].length();b++)
+            {
+                if(checkP[a].charAt(b) == '.')
+                    count++;
+            }
+            Log.e("count" + a, count + "");
+            if(count > 1)
+                return "wrong";
+        }
+
+        Log.e("postfix", postfix);
         return postfix;
     }
 
@@ -159,20 +177,15 @@ public class CalculatorLogical
             }
             else
             {
-                Log.e("postfix", postfix);
                 int count = 1;
                 while(Character.isDigit(postfix.charAt(count)))
                 {
                     temp += postfix.charAt(count);
                     count++;
                 }
-                Log.e("temp", temp);
                 numSt.push((0 - Double.parseDouble(temp)));
                 temp = "";
-                Log.e("first number", numSt.peek() + "");
                 postfix = postfix.substring(count);
-                Log.e("after substring_postfix", postfix);
-
 
                 for (int i = 0; i < postfix.length(); i++)
                 {
