@@ -1,5 +1,5 @@
 # Calculator
-![](.\app\src\main\res\mipmap-xxxhdpi\ic_launcher.png)
+![](./app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
 
 My Calculator App
 支援即時四則運算
