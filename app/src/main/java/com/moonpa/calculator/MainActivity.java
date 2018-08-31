@@ -7,10 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Stack;
-
-import com.moonpa.calculator.CalculatorLogical;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     String inputS = new String("");
@@ -206,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         else
         {
-            if (inputS.length() == 40)
+            if (inputS.length() == 28)
                 Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
             else
             {
@@ -242,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 && inputS.charAt(inputS.length() - 1) != '-' && inputS.charAt(inputS.length() - 1) != '*'
                 && inputS.charAt(inputS.length() - 1) != '/')
         {
-            if (inputS.length() == 40)
+            if (inputS.length() == 28)
                 Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
             else
             {
