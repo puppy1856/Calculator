@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button_style2"
-                android:text="/"
+                android:text="÷"
                 android:textColor="#E3E3E3"
                 android:textSize="40sp"/>
 
@@ -229,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/button_style2"
-                android:text="*"
+                android:text="×"
                 android:textColor="#E3E3E3"
                 android:textSize="40sp"/>
 

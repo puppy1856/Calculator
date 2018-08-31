@@ -18,10 +18,10 @@ public class CalculatorLogical
     private String[] checkP;
     private double answer;
 
-    /* + and - -> 1, * and / -> 2,other -> 0 */
+    /* + and - -> 1, × and ÷ -> 2,other -> 0 */
     private int priority(char c)
     {
-        return c == '+' || c == '-' ? 1 : c == '*' || c == '/' ? 2 : 0;
+        return c == '+' || c == '-' ? 1 : c == '×' || c == '÷' ? 2 : 0;
     }
 
     public String toPostfix(String infix)
@@ -33,7 +33,7 @@ public class CalculatorLogical
             return "wrong";
 
         else if (!infix.isEmpty() &&
-                (infix.contains("+") || infix.contains("-") || infix.contains("*") || infix.contains("/"))
+                (infix.contains("+") || infix.contains("-") || infix.contains("×") || infix.contains("÷"))
                 && Character.isDigit(infix.charAt(infix.length() -1)))
         {
             if(infix.charAt(0) == '-')
@@ -130,9 +130,9 @@ public class CalculatorLogical
                 return n1 + n2;
             case '-':
                 return n1 - n2;
-            case '*':
+            case '×':
                 return n1 * n2;
-            case '/':
+            case '÷':
                 return n1 / n2;
             default:
                 throw new ArithmeticException(op + " not defined");
@@ -140,7 +140,7 @@ public class CalculatorLogical
     }
     /*
     利用_將數字隔開以便讀取數字
-    ex:1.5*2+3*4.2 -> 1.5_2_*3_4.2*+
+    ex:1.5×2+3×4.2 -> 1.5_2_×3_4.2×+
     */
     public double getAnswer(String infix)
     {
@@ -155,7 +155,7 @@ public class CalculatorLogical
                 for (int i = 0; i < postfix.length(); i++)
                 {
                     if (postfix.charAt(i) != '+' && postfix.charAt(i) != '-'
-                            && postfix.charAt(i) != '*' && postfix.charAt(i) != '/'
+                            && postfix.charAt(i) != '×' && postfix.charAt(i) != '÷'
                             && postfix.charAt(i) != '_')
                     {
                         temp += postfix.charAt(i);
@@ -190,7 +190,7 @@ public class CalculatorLogical
                 for (int i = 0; i < postfix.length(); i++)
                 {
                     if (postfix.charAt(i) != '+' && postfix.charAt(i) != '-'
-                            && postfix.charAt(i) != '*' && postfix.charAt(i) != '/'
+                            && postfix.charAt(i) != '×' && postfix.charAt(i) != '÷'
                             && postfix.charAt(i) != '_')
                     {
                         temp += postfix.charAt(i);

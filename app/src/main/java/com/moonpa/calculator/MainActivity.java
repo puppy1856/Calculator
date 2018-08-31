@@ -175,10 +175,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btndel.setVisibility(Button.VISIBLE);
                 break;
             case R.id.btndiv:
-                setEleInput("/");
+                setEleInput("÷");
                 break;
             case R.id.btnmul:
-                setEleInput("*");
+                setEleInput("×");
                 break;
             case R.id.btnplus:
                 setEleInput("+");
