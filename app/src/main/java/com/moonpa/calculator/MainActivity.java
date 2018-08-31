@@ -234,9 +234,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             inputS += S;
             input.setText(inputS);
         } else if (!inputS.isEmpty()
-                && inputS.charAt(inputS.length() - 1) != '.' && inputS.charAt(inputS.length() - 1) != '+'
-                && inputS.charAt(inputS.length() - 1) != '-' && inputS.charAt(inputS.length() - 1) != '*'
-                && inputS.charAt(inputS.length() - 1) != '/')
+                && Character.isDigit(inputS.charAt(inputS.length() - 1)))
         {
             if (inputS.length() == 28)
                 Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();

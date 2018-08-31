@@ -198,7 +198,7 @@ public class CalculatorLogical
                 }
             }
             answer = numSt.pop();
-            }
+        }
             return answer;
     }
 
