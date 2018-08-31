@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     String inputS = new String("");
@@ -14,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView input;
     TextView output;
     CalculatorLogical cal = new CalculatorLogical();
+    private YoYo.YoYoString rope,ropeShake;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,12 +73,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onLongClick(View view)
             {
-                inputS = "";
-                input.setTextSize(50);
-                input.setText(inputS);
-                output.setText("");
+                rope = YoYo.with(Techniques.FadeOutDown).duration(600).playOn(findViewById(R.id.put_layout));
 
-                Toast.makeText(MainActivity.this, "清空完成!", Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -131,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         btndel.setVisibility(Button.INVISIBLE);
                         btnclr.setVisibility(Button.VISIBLE);
                     } else
-                        Toast.makeText(MainActivity.this, "算式錯誤!", Toast.LENGTH_SHORT).show();
+                        ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+
                 } catch (ArithmeticException e)
                 {
                     Toast.makeText(MainActivity.this, "除數不可為零!", Toast.LENGTH_SHORT).show();
@@ -168,14 +170,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btnclr:
-                inputS = "";
-                input.setTextSize(50);
-                input.setText(inputS);
-                output.setText("");
-
+                rope = YoYo.with(Techniques.FadeOutDown).duration(600).playOn(findViewById(R.id.put_layout));
                 btnclr.setVisibility(Button.INVISIBLE);
                 btndel.setVisibility(Button.VISIBLE);
-                Toast.makeText(MainActivity.this, "清空完成!", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btndiv:
                 setEleInput("/");
@@ -197,13 +194,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setNumInput(String S)
     {
+        if(rope != null)
+        {
+            rope.stop();
+            rope = null;
+            inputS = "";
+            input.setTextSize(50);
+            input.setText(inputS);
+            output.setText("");
+        }
+
         if (inputS.isEmpty())
             inputS += S;
 
         else
         {
             if (inputS.length() == 28)
-                Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
+                ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
@@ -230,6 +237,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setEleInput(String S)
     {
+        if(rope != null)
+        {
+            rope.stop();
+            rope = null;
+            inputS = "";
+            input.setTextSize(50);
+            input.setText(inputS);
+            output.setText("");
+        }
+
         if (inputS.isEmpty() && S.equals("-"))
         {
             inputS += S;
@@ -239,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 && Character.isDigit(inputS.charAt(inputS.length() - 1)))
         {
             if (inputS.length() == 28)
-                Toast.makeText(MainActivity.this, "已達上限!", Toast.LENGTH_SHORT).show();
+                ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
