@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     if (!cal.toPostfix(inputS).equals("wrong"))
                     {
+                        answer = cal.getAnswer(inputS);
                         inputS = output.getText() + "";
                         if (inputS.length() > 12)
                             input.setTextSize(30);
@@ -138,7 +139,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 } catch (ArithmeticException e)
                 {
-                    Toast.makeText(MainActivity.this, "除數不可為零!", Toast.LENGTH_SHORT).show();
+                    ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+                    output.setText("除數不得為零");
                 }
 
                 break;
@@ -156,14 +158,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         inputS = temp.toString();
                         if (!cal.toPostfix(inputS).equals("wrong"))
                         {
-                            answer = cal.getAnswer(inputS);
-
-                            if (checkInt(answer))
+                            try
                             {
-                                int answerInt = (int) answer;
-                                output.setText(answerInt + "");
-                            } else
-                                output.setText(answer + "");
+                                answer = cal.getAnswer(inputS);
+
+                                if (checkInt(answer))
+                                {
+                                    int answerInt = (int) answer;
+                                    output.setText(answerInt + "");
+                                } else
+                                    output.setText(answer + "");
+                            }catch (ArithmeticException e)
+                            { }
                         }
                         if (inputS.length() <= 12)
                             input.setTextSize(50);
@@ -224,14 +230,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (!cal.toPostfix(inputS).equals("wrong"))
         {
-            answer = cal.getAnswer(inputS);
-
-            if (checkInt(answer))
+            try
             {
-                int answerInt = (int) answer;
-                output.setText(answerInt + "");
-            } else
-                output.setText(answer + "");
+                answer = cal.getAnswer(inputS);
+
+                if (checkInt(answer))
+                {
+                    int answerInt = (int) answer;
+                    output.setText(answerInt + "");
+                } else
+                    output.setText(answer + "");
+            }catch (ArithmeticException e)
+            { }
         }
         else
             output.setText("");

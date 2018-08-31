@@ -3,6 +3,7 @@ package com.moonpa.calculator;
 import java.util.Stack;
 import java.lang.Character;
 import android.util.Log;
+import java.math.BigDecimal;
 
 /*
 拿到算式，假設不填括號。
@@ -106,14 +107,12 @@ public class CalculatorLogical
 
         for(int a = 0;a < checkP.length;a++)
         {
-            Log.e("checkP" + a, checkP[a]);
             int count = 0;
             for(int b = 0;b < checkP[a].length();b++)
             {
                 if(checkP[a].charAt(b) == '.')
                     count++;
             }
-            Log.e("count" + a, count + "");
             if(count > 1)
                 return "wrong";
         }
@@ -124,16 +123,21 @@ public class CalculatorLogical
 
     private double cal(char op, double n1, double n2)
     {
+        BigDecimal num1 = new BigDecimal(Double.toString(n1));
+        BigDecimal num2 = new BigDecimal(Double.toString(n2));
         switch (op)
         {
             case '+':
-                return n1 + n2;
+                return num1.add(num2).doubleValue();
             case '-':
-                return n1 - n2;
+                return num1.subtract(num2).doubleValue();
             case '×':
-                return n1 * n2;
+                return num1.multiply(num2).doubleValue();
             case '÷':
-                return n1 / n2;
+                if(n2 != 0)
+                    return num1.divide(num2,10,BigDecimal.ROUND_HALF_UP).doubleValue();
+                else
+                    throw new ArithmeticException("can not be zero!");
             default:
                 throw new ArithmeticException(op + " not defined");
         }
