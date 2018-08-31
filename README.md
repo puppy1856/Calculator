@@ -1,5 +1,6 @@
 # Calculator
 My Calculator App
+支援即時四則運算
 
 ![](app.jpg)
 
