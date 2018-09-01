@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView input;
     TextView output;
     CalculatorLogical cal = new CalculatorLogical();
-    private YoYo.YoYoString rope,ropeShake;
+    private YoYo.YoYoString rope,inRope,outRope;
 
 
     @Override
@@ -127,19 +127,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     {
                         answer = cal.getAnswer(inputS);
                         inputS = output.getText() + "";
-                        if (inputS.length() > 12)
-                            input.setTextSize(30);
+                        if (inputS.length() > 10 && input.length() <= 15)
+                            input.setTextSize(40);
+                        else if (inputS.length() > 15)
+                            input.setTextSize(35);
+
                         input.setText(inputS);
-                        output.setText("");
+                        outRope = YoYo.with(Techniques.FadeOutUp).duration(650).playOn(output);
+                        inRope = YoYo.with(Techniques.FadeInUp).duration(600).playOn(input);
 
                         btndel.setVisibility(Button.INVISIBLE);
                         btnclr.setVisibility(Button.VISIBLE);
                     } else
-                        ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+                        inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
 
                 } catch (ArithmeticException e)
                 {
-                    ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+                    inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
                     output.setText("除數不得為零");
                 }
 
@@ -165,13 +169,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 if (checkInt(answer))
                                 {
                                     int answerInt = (int) answer;
-                                    output.setText(answerInt + "");
+                                    setOutput(output,answerInt + "");
                                 } else
-                                    output.setText(answer + "");
+                                    setOutput(output,answer + "");
                             }catch (ArithmeticException e)
-                            { }
+                            { output.setText(""); }
                         }
-                        if (inputS.length() <= 12)
+                        if(inputS.length() == 15)
+                            input.setTextSize(40);
+
+                        if (inputS.length() == 10)
                             input.setTextSize(50);
                     }
                     input.setText(inputS);
@@ -212,18 +219,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             output.setText("");
         }
 
+        if(outRope != null)
+        {
+            outRope.stop();
+            outRope = null;
+            output.setText("");
+        }
+
         if (inputS.isEmpty())
             inputS += S;
 
         else
         {
-            if (inputS.length() == 28)
-                ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+            if (inputS.length() >= 18)
+                inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
-                if (inputS.length() > 12)
-                    input.setTextSize(30);
+                if (inputS.length() == 11)
+                    input.setTextSize(40);
+
+                if (inputS.length() == 16)
+                    input.setTextSize(35);
             }
         }
         input.setText(inputS);
@@ -233,15 +250,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try
             {
                 answer = cal.getAnswer(inputS);
-
                 if (checkInt(answer))
                 {
                     int answerInt = (int) answer;
-                    output.setText(answerInt + "");
+                    setOutput(output,answerInt + "");
                 } else
-                    output.setText(answer + "");
+                    setOutput(output,answer + "");
             }catch (ArithmeticException e)
-            { }
+            { output.setText(""); }
         }
         else
             output.setText("");
@@ -267,13 +283,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (!inputS.isEmpty()
                 && Character.isDigit(inputS.charAt(inputS.length() - 1)))
         {
-            if (inputS.length() == 28)
-                ropeShake = YoYo.with(Techniques.Shake).duration(600).playOn(input);
+            if (inputS.length() >= 18)
+                inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
-                if (inputS.length() > 12)
-                    input.setTextSize(30);
+                if (inputS.length() == 11)
+                    input.setTextSize(40);
+
+                if (inputS.length() == 16)
+                    input.setTextSize(35);
             }
             input.setText(inputS);
         }
@@ -287,5 +306,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return false;
         else
             return true;
+    }
+
+    private void setOutput(TextView V,String S)
+    {
+        if(S.length() >= 10)
+            V.setTextSize(30);
+        else
+            V.setTextSize(35);
+
+        V.setText(S);
     }
 }
