@@ -73,7 +73,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onLongClick(View view)
             {
-                rope = YoYo.with(Techniques.FadeOutDown).duration(600).playOn(findViewById(R.id.put_layout));
+                if(rope != null)
+                {
+                    rope.stop();
+                    rope = null;
+                    inputS = "";
+                    input.setText("");
+                    output.setText("");
+                }
+                else
+                    rope = YoYo.with(Techniques.FadeOutDown).duration(600).playOn(findViewById(R.id.put_layout));
 
                 return true;
             }
