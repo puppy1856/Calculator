@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.xw.repo.BubbleSeekBar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     double answer;
     TextView input;
     TextView output;
+    BubbleSeekBar seekBar;
     CalculatorLogical cal = new CalculatorLogical();
     private YoYo.YoYoString rope,inRope,outRope;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         input = (TextView) findViewById(R.id.input);
         output = (TextView) findViewById(R.id.output);
+        seekBar = (BubbleSeekBar)findViewById(R.id.seekBar);
 
         Button btn0 = (Button) findViewById(R.id.btn0);
         Button btn1 = (Button) findViewById(R.id.btn1);
@@ -66,6 +69,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnminus.setOnClickListener(this);
         btnp.setOnClickListener(this);
         btnclr.setOnClickListener(this);
+
+        seekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener()
+        {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser)
+            {
+                input.setTextSize(progress);
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat)
+            {
+
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser)
+            {
+
+            }
+        });
 
         //長按清除鈕
         btndel.setOnLongClickListener(new View.OnLongClickListener()
@@ -137,10 +161,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         answer = cal.getAnswer(inputS);
                         inputS = output.getText() + "";
                         if (inputS.length() > 10 && input.length() <= 15)
+                        {
                             input.setTextSize(40);
+                            seekBar.setProgress(40);
+                        }
                         else if (inputS.length() > 15)
+                        {
                             input.setTextSize(35);
-
+                            seekBar.setProgress(35);
+                        }
                         input.setText(inputS);
                         outRope = YoYo.with(Techniques.FadeOutUp).duration(650).playOn(output);
                         inRope = YoYo.with(Techniques.FadeInUp).duration(600).playOn(input);
@@ -185,10 +214,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             { output.setText(""); }
                         }
                         if(inputS.length() == 15)
+                        {
                             input.setTextSize(40);
+                            seekBar.setProgress(40);
+                        }
 
                         if (inputS.length() == 10)
+                        {
                             input.setTextSize(50);
+                            seekBar.setProgress(50);
+                        }
                     }
                     input.setText(inputS);
                 }
@@ -224,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rope = null;
             inputS = "";
             input.setTextSize(50);
+            seekBar.setProgress(50);
             input.setText(inputS);
             output.setText("");
         }
@@ -240,16 +276,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         else
         {
-            if (inputS.length() >= 18)
+            if (inputS.length() >= 30)
                 inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
                 if (inputS.length() == 11)
+                {
                     input.setTextSize(40);
-
+                    seekBar.setProgress(40);
+                }
                 if (inputS.length() == 16)
+                {
                     input.setTextSize(35);
+                    seekBar.setProgress(35);
+                }
             }
         }
         input.setText(inputS);
@@ -280,6 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rope = null;
             inputS = "";
             input.setTextSize(50);
+            seekBar.setProgress(50);
             input.setText(inputS);
             output.setText("");
         }
@@ -292,16 +334,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (!inputS.isEmpty()
                 && Character.isDigit(inputS.charAt(inputS.length() - 1)))
         {
-            if (inputS.length() >= 18)
+            if (inputS.length() >= 30)
                 inRope = YoYo.with(Techniques.Shake).duration(600).playOn(input);
             else
             {
                 inputS += S;
                 if (inputS.length() == 11)
+                {
                     input.setTextSize(40);
-
+                    seekBar.setProgress(40);
+                }
                 if (inputS.length() == 16)
+                {
                     input.setTextSize(35);
+                    seekBar.setProgress(35);
+                }
             }
             input.setText(inputS);
         }
