@@ -6,7 +6,7 @@ My Calculator App
 
 ![](app.jpg)
 
-# 使用開源項目 Thanks
+# Project used, Thanks
 [AndroidViewAnimations](https://github.com/daimajia/AndroidViewAnimations)
 
 [BubbleSeekBar](https://github.com/woxingxiao/BubbleSeekBar)
